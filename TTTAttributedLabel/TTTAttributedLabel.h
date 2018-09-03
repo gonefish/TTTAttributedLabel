@@ -23,6 +23,8 @@
 #import <UIKit/UIKit.h>
 #import <CoreText/CoreText.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 //! Project version number for TTTAttributedLabel.
 FOUNDATION_EXPORT double TTTAttributedLabelVersionNumber;
 
@@ -74,7 +76,7 @@ extern NSString * const kTTTBackgroundCornerRadiusAttributeName;
 
 // Override UILabel @property to accept both NSString and NSAttributedString
 @protocol TTTAttributedLabel <NSObject>
-@property (nonatomic, copy) IBInspectable id text;
+@property (nullable, nonatomic, copy) IBInspectable id text;
 @end
 
 IB_DESIGNABLE
@@ -121,7 +123,7 @@ IB_DESIGNABLE
  
  @discussion A `TTTAttributedLabel` delegate responds to messages sent by tapping on links in the label. You can use the delegate to respond to links referencing a URL, address, phone number, date, or date with a specified time zone and duration.
  */
-@property (nonatomic, unsafe_unretained) IBOutlet id <TTTAttributedLabelDelegate> delegate;
+@property (nullable, nonatomic, unsafe_unretained) IBOutlet id <TTTAttributedLabelDelegate> delegate;
 
 ///--------------------------------------------
 /// @name Detecting, Accessing, & Styling Links
@@ -144,17 +146,17 @@ IB_DESIGNABLE
  
  @warning You must specify `linkAttributes` before setting autodecting or manually-adding links for these attributes to be applied.
  */
-@property (nonatomic, strong) NSDictionary *linkAttributes;
+@property (nullable, nonatomic, strong) NSDictionary *linkAttributes;
 
 /**
  A dictionary containing the default `NSAttributedString` attributes to be applied to links when they are in the active state. If `nil` or an empty `NSDictionary`, active links will not be styled. The default active link style is red and underlined.
  */
-@property (nonatomic, strong) NSDictionary *activeLinkAttributes;
+@property (nullable, nonatomic, strong) NSDictionary *activeLinkAttributes;
 
 /**
  A dictionary containing the default `NSAttributedString` attributes to be applied to links when they are in the inactive state, which is triggered by a change in `tintColor` in iOS 7 and later. If `nil` or an empty `NSDictionary`, inactive links will not be styled. The default inactive link style is gray and unadorned.
  */
-@property (nonatomic, strong) NSDictionary *inactiveLinkAttributes;
+@property (nullable, nonatomic, strong) NSDictionary *inactiveLinkAttributes;
 
 /**
  The edge inset for the background of a link. The default value is `{0, -1, 0, -1}`.
@@ -188,7 +190,7 @@ IB_DESIGNABLE
 /** 
  The shadow color for the label when the label's `highlighted` property is `YES`. The default value is `nil` (no shadow color).
  */
-@property (nonatomic, strong) IBInspectable UIColor *highlightedShadowColor;
+@property (nullable, nonatomic, strong) IBInspectable UIColor *highlightedShadowColor;
 
 /**
  The amount to kern the next character. Default is standard kerning. If this attribute is set to 0.0, no kerning is done at all.
@@ -245,7 +247,7 @@ IB_DESIGNABLE
 /**
  The attributed string to apply to the truncation token at the end of a truncated line.
  */
-@property (nonatomic, strong) IBInspectable NSAttributedString *attributedTruncationToken;
+@property (nullable, nonatomic, strong) IBInspectable NSAttributedString *attributedTruncationToken;
 
 ///--------------------------
 /// @name Long press gestures
@@ -284,7 +286,7 @@ IB_DESIGNABLE
   
  @discussion This method overrides `UILabel -setText:` to accept both `NSString` and `NSAttributedString` objects. This string is `nil` by default.
  */
-- (void)setText:(id)text;
+- (void)setText:(nullable id)text;
 
 /**
  Sets the text displayed by the label, after configuring an attributed string containing the text attributes inherited from the label in a block.
@@ -294,7 +296,7 @@ IB_DESIGNABLE
  
  @discussion This string is `nil` by default.
  */
-- (void)setText:(id)text
+- (void)setText:(nullable id)text
 afterInheritingLabelAttributesAndConfiguringWithBlock:(NSMutableAttributedString *(^)(NSMutableAttributedString *mutableAttributedString))block;
 
 ///------------------------------------
@@ -306,7 +308,7 @@ afterInheritingLabelAttributesAndConfiguringWithBlock:(NSMutableAttributedString
  
  @warning Do not set this property directly. Instead, set @c text to an @c NSAttributedString.
  */
-@property (readwrite, nonatomic, copy) NSAttributedString *attributedText;
+@property (nullable, readwrite, nonatomic, copy) NSAttributedString *attributedText;
 
 ///-------------------
 /// @name Adding Links
@@ -616,41 +618,41 @@ typedef void (^TTTAttributedLabelLinkBlock) (TTTAttributedLabel *, TTTAttributed
 /**
  An `NSTextCheckingResult` representing the link's location and type.
  */
-@property (readonly, nonatomic, strong) NSTextCheckingResult *result;
+@property (nullable, readonly, nonatomic, strong) NSTextCheckingResult *result;
 
 /**
  A dictionary containing the @c NSAttributedString attributes to be applied to the link.
  */
-@property (readonly, nonatomic, copy) NSDictionary *attributes;
+@property (nullable, readonly, nonatomic, copy) NSDictionary *attributes;
 
 /**
  A dictionary containing the @c NSAttributedString attributes to be applied to the link when it is in the active state.
  */
-@property (readonly, nonatomic, copy) NSDictionary *activeAttributes;
+@property (nullable, readonly, nonatomic, copy) NSDictionary *activeAttributes;
 
 /**
  A dictionary containing the @c NSAttributedString attributes to be applied to the link when it is in the inactive state, which is triggered by a change in `tintColor` in iOS 7 and later.
  */
-@property (readonly, nonatomic, copy) NSDictionary *inactiveAttributes;
+@property (nullable, readonly, nonatomic, copy) NSDictionary *inactiveAttributes;
 
 /**
  Additional information about a link for VoiceOver users. Has default values if the link's @c result is @c NSTextCheckingTypeLink, @c NSTextCheckingTypePhoneNumber, or @c NSTextCheckingTypeDate.
  */
-@property (nonatomic, copy) NSString *accessibilityValue;
+@property (nullable, nonatomic, copy) NSString *accessibilityValue;
 
 /**
  A block called when this link is tapped.
  If non-nil, tapping on this link will call this block instead of the 
  @c TTTAttributedLabelDelegate tap methods, which will not be called for this link.
  */
-@property (nonatomic, copy) TTTAttributedLabelLinkBlock linkTapBlock;
+@property (nullable, nonatomic, copy) TTTAttributedLabelLinkBlock linkTapBlock;
 
 /**
  A block called when this link is long-pressed.
  If non-nil, long pressing on this link will call this block instead of the
  @c TTTAttributedLabelDelegate long press methods, which will not be called for this link.
  */
-@property (nonatomic, copy) TTTAttributedLabelLinkBlock linkLongPressBlock;
+@property (nullable, nonatomic, copy) TTTAttributedLabelLinkBlock linkLongPressBlock;
 
 /**
  Initializes a link using the attribute dictionaries specified.
@@ -679,3 +681,5 @@ typedef void (^TTTAttributedLabelLinkBlock) (TTTAttributedLabel *, TTTAttributed
                          textCheckingResult:(NSTextCheckingResult *)result;
 
 @end
+
+NS_ASSUME_NONNULL_END
